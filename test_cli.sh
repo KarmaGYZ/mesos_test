@@ -69,61 +69,61 @@ function extract_task_manager_slot_request_count() {
     echo $COUNT
 }
 
-# printf "\n==============================================================================\n"
-# printf "Test default job launch with non-detach mode\n"
-# printf "==============================================================================\n"
-# RESULT=`$FLINK_DIR/bin/flink run -m localhost:${REST_PORT} $FLINK_DIR/examples/batch/WordCount.jar`
-# EXIT_CODE=$?
-# echo "$RESULT"
+printf "\n==============================================================================\n"
+printf "Test default job launch with non-detach mode\n"
+printf "==============================================================================\n"
+RESULT=`$FLINK_DIR/bin/flink run -m localhost:${REST_PORT} $FLINK_DIR/examples/batch/WordCount.jar`
+EXIT_CODE=$?
+echo "$RESULT"
 
-# if [[ $RESULT != *"(java.util.ArrayList) [170 elements]"* ]];then
-#     echo "[FAIL] Invalid accumulator result."
-#     EXIT_CODE=1
-# fi
+if [[ $RESULT != *"(java.util.ArrayList) [170 elements]"* ]];then
+    echo "[FAIL] Invalid accumulator result."
+    EXIT_CODE=1
+fi
 
-# if [ $EXIT_CODE == 0 ]; then
-#     printf "\n==============================================================================\n"
-#     printf "Test job launch with complex parameter set\n"
-#     printf "==============================================================================\n"
-#     eval "$FLINK_DIR/bin/flink run -m localhost:${REST_PORT} -p 4 -q \
-#       -c org.apache.flink.examples.java.wordcount.WordCount \
-#       $FLINK_DIR/examples/batch/WordCount.jar \
-#       --input file:///$FLINK_DIR/README.txt \
-#       --output file:///${TEST_DATA_DIR}/result1"
-#     EXIT_CODE=$?
-# fi
+if [ $EXIT_CODE == 0 ]; then
+    printf "\n==============================================================================\n"
+    printf "Test job launch with complex parameter set\n"
+    printf "==============================================================================\n"
+    eval "$FLINK_DIR/bin/flink run -m localhost:${REST_PORT} -p 4 -q \
+      -c org.apache.flink.examples.java.wordcount.WordCount \
+      $FLINK_DIR/examples/batch/WordCount.jar \
+      --input file:///$FLINK_DIR/README.txt \
+      --output file:///${TEST_DATA_DIR}/result1"
+    EXIT_CODE=$?
+fi
 
-# if [ $EXIT_CODE == 0 ]; then
-#     ROW_COUNT=`cat ${TEST_DATA_DIR}/result1/* | wc -l`
-#     if [ $((ROW_COUNT)) -ne 111 ]; then
-#         echo "[FAIL] Unexpected number of rows in output."
-#         echo "Found: $ROW_COUNT"
-#         EXIT_CODE=1
-#     fi
-# fi
+if [ $EXIT_CODE == 0 ]; then
+    ROW_COUNT=`cat ${TEST_DATA_DIR}/result1/* | wc -l`
+    if [ $((ROW_COUNT)) -ne 111 ]; then
+        echo "[FAIL] Unexpected number of rows in output."
+        echo "Found: $ROW_COUNT"
+        EXIT_CODE=1
+    fi
+fi
 
-# if [ $EXIT_CODE == 0 ]; then
-#     RECEIVED_TASKMGR_REQUEST=`extract_task_manager_slot_request_count`
-#     # expected 1 from default launch and 4 from complex parameter set.
-#     if [[ $RECEIVED_TASKMGR_REQUEST != 5 ]]; then
-#         echo "[FAIL] Unexpected task manager slot count."
-#         echo "Received slots: $RECEIVED_TASKMGR_REQUEST"
-#         EXIT_CODE=1
-#     fi
-# fi
+if [ $EXIT_CODE == 0 ]; then
+    RECEIVED_TASKMGR_REQUEST=`extract_task_manager_slot_request_count`
+    # expected 1 from default launch and 4 from complex parameter set.
+    if [[ $RECEIVED_TASKMGR_REQUEST != 5 ]]; then
+        echo "[FAIL] Unexpected task manager slot count."
+        echo "Received slots: $RECEIVED_TASKMGR_REQUEST"
+        EXIT_CODE=1
+    fi
+fi
 
-# printf "\n==============================================================================\n"
-# printf "Test CLI information\n"
-# printf "==============================================================================\n"
-# if [ $EXIT_CODE == 0 ]; then
-#     RETURN=`$FLINK_DIR/bin/flink info $FLINK_DIR/examples/batch/WordCount.jar`
-#     echo "$RETURN"
-#     PACT_MATCH=`extract_valid_pact_from_job_info_return "$RETURN"`
-#     if [[ $PACT_MATCH == -1 ]]; then # expect at least a Data Source and a Data Sink pact match
-#         echo "[FAIL] Data source and/or sink are missing."
-#         EXIT_CODE=1
-#     fi
-# fi
+printf "\n==============================================================================\n"
+printf "Test CLI information\n"
+printf "==============================================================================\n"
+if [ $EXIT_CODE == 0 ]; then
+    RETURN=`$FLINK_DIR/bin/flink info $FLINK_DIR/examples/batch/WordCount.jar`
+    echo "$RETURN"
+    PACT_MATCH=`extract_valid_pact_from_job_info_return "$RETURN"`
+    if [[ $PACT_MATCH == -1 ]]; then # expect at least a Data Source and a Data Sink pact match
+        echo "[FAIL] Data source and/or sink are missing."
+        EXIT_CODE=1
+    fi
+fi
 
 printf "\n==============================================================================\n"
 printf "Test operation on running streaming jobs\n"

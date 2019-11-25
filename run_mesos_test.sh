@@ -26,3 +26,4 @@ echo "Flink distribution directory: $FLINK_DIR"
 
 run_test "Flink CLI end-to-end test" "$MESOS_TEST_DIR/test_cli.sh"
 
+# run_test "Heavy deployment end-to-end test" "$END_TO_END_DIR/test-scripts/test_heavy_deployment.sh" "skip_check_exceptions"
