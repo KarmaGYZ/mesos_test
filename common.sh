@@ -174,6 +174,8 @@ function jm_kill_all {
 # Kills all task manager.
 function tm_kill_all {
   kill_all 'TaskManagerRunner|TaskManager|MesosTaskExecutorRunner'
+  local pid=`sudo docker exec -it mesos-slave jps | grep -e MesosTaskExecutorRunner | cut -d " " -f 1`
+  sudo docker exec -it mesos-slave kill $pid
 }
 
 function clean_stdout_files {
@@ -191,6 +193,9 @@ function kill_all {
 function shutdown_all {
   tm_kill_all
   jm_kill_all
+  pid=`jps | grep -E "Symbols" | cut -d " " -f 1 || true`
+  kill -9 ${pid}
+  wait  ${pid}
 }
 
 REST_PROTOCOL="http"
