@@ -92,7 +92,8 @@ run_test "Wordcount end-to-end test" "$MESOS_TEST_DIR/test_batch_wordcount.sh fi
 run_test "class loading end-to-end test" "$MESOS_TEST_DIR/test_streaming_classloader.sh"
 run_test "Distributed cache end-to-end test" "$MESOS_TEST_DIR/test_streaming_distributed_cache_via_blob.sh"
 
-# run_test "TPC-H end-to-end test (Blink planner)" "$END_TO_END_DIR/test-scripts/test_tpch.sh" TODO
+run_test "TPC-H end-to-end test (Blink planner)" "$MESOS_TEST_DIR/test_tpch.sh" "skip_check_exceptions"
+run_test "TPC-DS end-to-end test (Blink planner)" "$MESOS_TEST_DIR/test_tpcds.sh" "skip_check_exceptions"
 
 printf "\n[PASS] All tests passed\n"
 exit 0
