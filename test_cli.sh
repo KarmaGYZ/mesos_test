@@ -102,15 +102,15 @@ if [ $EXIT_CODE == 0 ]; then
     fi
 fi
 
-if [ $EXIT_CODE == 0 ]; then
-    RECEIVED_TASKMGR_REQUEST=`extract_task_manager_slot_request_count`
-    # expected 1 from default launch and 4 from complex parameter set.
-    if [[ $RECEIVED_TASKMGR_REQUEST != 5 ]]; then
-        echo "[FAIL] Unexpected task manager slot count."
-        echo "Received slots: $RECEIVED_TASKMGR_REQUEST"
-        EXIT_CODE=1
-    fi
-fi
+#if [ $EXIT_CODE == 0 ]; then
+#    RECEIVED_TASKMGR_REQUEST=`extract_task_manager_slot_request_count`
+#    # expected 1 from default launch and 4 from complex parameter set.
+#    if [[ $RECEIVED_TASKMGR_REQUEST != 5 ]]; then
+#        echo "[FAIL] Unexpected task manager slot count."
+#        echo "Received slots: $RECEIVED_TASKMGR_REQUEST"
+#        EXIT_CODE=1
+#    fi
+#fi
 
 printf "\n==============================================================================\n"
 printf "Test CLI information\n"

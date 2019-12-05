@@ -324,6 +324,8 @@ function wait_job_terminal_state {
   done
 }
 
+BACKUP_FLINK_DIRS="conf lib plugins"
+
 function backup_flink_dir() {
     mkdir -p "${TEST_DATA_DIR}/tmp/backup"
     # Note: not copying all directory tree, as it may take some time on some file systems.
